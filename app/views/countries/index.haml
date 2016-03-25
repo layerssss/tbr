@@ -1,0 +1,19 @@
+- Continent.all.each do |continent|
+  = panel heading: "All countries in #{continent.name}:" do
+    .panel-body 
+      = table_for continent.countries, table_html: { class: 'table' } do |t|
+        = t.column :name
+  = panel heading: "Create a new country in #{continent.name}:" do
+    .panel-body
+      = form_for continent.countries.new, layout: :basic do |f|
+        = f.hidden_field :continent_id
+        = f.text_field :name
+        = f.file_field :flag
+        = f.submit
+
+= panel heading: 'Create a new continent:' do
+  .panel-body
+    = form_for Continent.new, layout: :basic do |f|
+      = f.text_field :name
+      = f.file_field :flag
+      = f.submit

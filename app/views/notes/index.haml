@@ -1,0 +1,15 @@
+= panel heading: 'Leave us a note' do
+  .panel-body
+    = bootstrap_form_for @note do |f|
+      = f.static_control :From do
+        = "#{f.object.from} <#{f.object.email}>"
+      = f.static_control :To do
+        thebackpackerretreat@gmail.com
+      = f.text_area :content, rows: 5, help: 'Let us know when will you come, how long are you going to stay, or just your wonderful story. We love travellers! (We will reply you by email if that\'s ok)'
+      = recaptcha_tags
+      = f.submit 'Ok!'
+- @notes.each do |note|
+  = panel heading: note.created_at do
+    .panel-body
+      %strong #{note.from} <#{note.email}>:
+      = simple_format note.content, {}, wrapper_tag: 'span'

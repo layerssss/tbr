@@ -1,3 +1,3 @@
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :facebook, '197017177342811', 'ab466e430fd773a4faa4d7cbd7fed7f0', scope: 'public_profile,pages_show_list', display: 'touch'
+  provider :facebook, ENV['FACEBOOK_KEY']||'197948773916318', ENV['FACEBOOK_SECRET']||'61ae5706e7940ecb0cf674b1608965d8', scope: 'public_profile,pages_show_list,email', display: 'touch'
 end

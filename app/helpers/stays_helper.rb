@@ -12,6 +12,5 @@
 #  updated_at :datetime         not null
 #
 
-class Stay < ActiveRecord::Base
-  belongs_to :country
+module StaysHelper
 end

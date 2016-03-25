@@ -1,0 +1,4 @@
+= panel heading: "Edit stay of #{@stay.name} in #{@stay.country.name}" do
+  .panel-body
+    = render partial: 'form', locals: { stay: @stay }
+    = link_to 'Delete this reservation', @stay, 'data-confirm': 'Are you sure to delete this record?', method: :delete

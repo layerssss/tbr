@@ -2,9 +2,37 @@
 %html
   %head
     %title Tbr
+    %meta{:charset => "utf-8"}
+    %meta{:content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible"}
+    %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}
+    %meta{:content => "black", :name => "apple-mobile-web-app-status-bar-style"}
+    %meta{:content => "telephone=no", :name => "format-detection"}
+    %meta{:content => "width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no", :name => "viewport"}
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body
-    = session['auth']
-    = yield
+  %body{ style: 'padding-top: 70px;' }
+    = navbar fixed: :top, container: 'fluid' do
+      = navbar_header brand: 'The Backpacker Retreat', brand_link: root_path
+      = navbar_collapse do
+        = navbar_group do
+          = navbar_item 'Book', notes_path
+          = navbar_item 'About', 'https://www.facebook.com/thebackpackerretreat/info'
+          - if session['is_admin'].present?
+            = navbar_dropdown 'Reservations' do
+              - Continent.all.each do |continent|
+                = navbar_item image_tag(continent.flag, class: :flag) + continent.name, continent_path(continent)
+        = navbar_group align: :right do
+          %div{ style: 'line-height: 5;' }
+            - if session['auth'].present?
+              = image_tag(session['auth']['info']['image'], class: :flag)
+              #{session['auth']['info']['name']}
+              = link_to 'Logout', logout_path, method: :post, class: 'btn btn-default btn-xs'
+            - else
+              %a{ href: '/auth/facebook', data: { no_turbolink: true } }
+                = image_tag 'fblogin.png', class: :flag
+    .container-fluid
+      - flash.each do |type, message|
+        .alert{class: { alert: 'alert-danger', notice: 'alert-success' }[type.to_sym]}
+          = message
+      = yield

@@ -80,6 +80,4 @@ test:
 #
 production:
   <<: *default
-  database: tbr_production
-  username: tbr
-  password: <%= ENV['TBR_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>

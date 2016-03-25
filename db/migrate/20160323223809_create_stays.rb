@@ -4,7 +4,8 @@ class CreateStays < ActiveRecord::Migration
       t.integer :country_id
       t.string :name
       t.date :arrival
-      t.integer :days
+      t.integer :days, default: 1
+      t.integer :amount, default: 20
 
       t.timestamps null: false
     end

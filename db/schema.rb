@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323223809) do
+ActiveRecord::Schema.define(version: 20160326070957) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,13 +31,33 @@ ActiveRecord::Schema.define(version: 20160323223809) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "email"
+    t.string   "from"
+  end
+
+  create_table "photos", force: :cascade do |t|
+    t.string   "thumbnail"
+    t.string   "url"
+    t.datetime "time"
+    t.string   "f_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "title"
+    t.string   "link"
+  end
+
   create_table "stays", force: :cascade do |t|
     t.integer  "country_id"
     t.string   "name"
     t.date     "arrival"
-    t.integer  "days"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "days",       default: 1
+    t.integer  "amount",     default: 20
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "stays", ["country_id"], name: "index_stays_on_country_id", using: :btree

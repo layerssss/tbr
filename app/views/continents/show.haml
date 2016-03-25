@@ -1,0 +1,37 @@
+= panel "Reservation for #{image_tag @continent.flag}#{@continent.name}" do
+  .table-responsive
+    %table.table
+      %thead
+        %tr
+          %th Room
+          - @dates.each do |date|
+            %th{ class: date < Date.today ? 'warning' : (date == Date.today ? 'success' : '')}
+              .visible-xs #{date.strftime('%d')}
+              .hidden-xs #{date.strftime('%m-%d')}
+      %tbody
+        - @continent.countries.each do |country|
+          %tr
+            %th 
+              = image_tag country.flag, class: :flag, title: country.name
+              .hidden-xs
+                = country.name
+            - @dates.each do |date|
+              - stays = country.stays_for(date)
+              %td{ class: stays.empty? ? '' : 'info'}
+                - if stays.empty?
+                  .visible-xs
+                    = link_to 'E', new_stay_path(country_id: country.id, arrival: date)
+                  .hidden-xs
+                    = link_to 'Empty', new_stay_path(country_id: country.id, arrival: date)
+                - else
+                  - stays.each do |stay|
+                    .visible-xs
+                      = link_to "#{stay.name[0]}", stay
+                    .hidden-xs
+                      = link_to "#{stay.name}", stay
+                      - if stay.arrival == date
+                        %br
+                        #{stay.days} days
+                      - if stay.arrival + stay.days - 1 == date
+                        %br
+                        Due
